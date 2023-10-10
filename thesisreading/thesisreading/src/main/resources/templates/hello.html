@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>登录</title>
+    <script src="/static/layui/layui.js" type="text/javascript"></script>
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="/static/layui/css/layui.css" type="text/css">
+
+    <!--    &lt;!&ndash; 用于本地调试&ndash;&gt;-->
+    <script src="file:///Users/151169/Desktop/thesisreading/thesisreading/src/main/resources/templates/layui/layui.js"
+            type="text/javascript"></script>
+    <link rel="stylesheet"
+          href="file:///Users/151169/Desktop/thesisreading/thesisreading/src/main/resources/templates/layui/css/layui.css"
+          type="text/css">
+
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+
+        }
+
+        #div2l {
+            width: 500px;
+            height: 300px;
+            border-radius: 30px;
+        }
+
+        #div1l {
+            width: 400px;
+            height: 160px;
+            margin-top: 10px;
+        }
+
+        .center-in-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+
+</head>
+
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">论文选读系统</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">注册</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="/student/signup">我是学生</a></dd>
+                    <dd><a href="/teacher/signup">我是老师</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="">登录</a></li>
+        </ul>
+    </div>
+
+
+    <div id="div2l" class="center-in-center">
+        <div><h1 style="color: #393D49; margin-top: 5px;" align="center">用户登录</h1></div>
+        <div id="div1l" class="center-in-center">
+            <div class="layui-form"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="userid" placeholder="学号/教师号"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">密码</label>
+                    <div class="layui-input-inline">
+                        <input type="password" id="password" placeholder="请输入密码"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" id="signin">登录</button>
+                        <button class="layui-btn layui-btn-primary" id="resetbtn">重置</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-footer" style="background-color: white; text-align: end;">
+        <!-- 底部固定区域 -->
+        © Christy
+    </div>
+</div>
+<script>
+    //JavaScript代码区域
+    layui.use('element', function () {
+        var element = layui.element;
+
+    });
+</script>
+</body>
+
+<script>
+    $('#signin').click(function () {
+        let str1 = document.getElementById('userid').value;
+        let str2 = document.getElementById('password').value;
+
+        /*是空格，制表符，换页符*/
+        if (str1.replace(/(^s*)|(s*$)/g, "").length == 0) {
+            alert("用户名不能为空！");
+            $('#userid').focus();
+            return false;
+        } else if (str2.replace(/(^s*)|(s*$)/g, "").length == 0) {
+            alert("密码不能为空");
+            $('#password').focus();
+            return false;
+        } else {
+
+            $.ajax({
+                type: "POST",
+                url: "/signin",
+                data: JSON.stringify({userid: $('#userid').val(), password: $("#password").val()}),
+                contentType: "application/json; charset=UTF-8",
+                dataType: "json",
+                success: function (data) {
+                    var role = data.role;
+                    // $('#div2l').empty();   //清空div2l里面的所有内容
+                    // var str = "";//定义用于拼接的字符串
+                    // for (var key in data) {
+                    //     str += "<tr><td>" + data[key] + "</td></tr>";
+                    // }
+
+                    //根据用户类型返回相应的
+                    if (role == 0) {
+                        window.location.href = "/admin/index"; //管理员
+                    } else if (role == 1) {
+                        window.location.href = "/teacher/index"; //教师
+                    } else if (role == 2) {
+                        window.location.href = "/student/index"; //学生
+                    } else {
+                        alert("用户登录失败");
+                    }
+                    // $('#div2l').html(str);
+                }
+            });
+
+        }
+    });
+
+
+    //重置input
+    $('#resetbtn').click(function () {
+        $('#userid').val("");
+        $('#password').val("");
+    });
+
+</script>
+
+</html>

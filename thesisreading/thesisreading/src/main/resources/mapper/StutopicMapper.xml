@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thesisreading.mapper.StutopicMapper">
+  <resultMap id="BaseResultMap" type="com.thesisreading.model.Stutopic">
+    <!--@mbg.generated-->
+    <!--@Table readingsystem.stutopic-->
+    <id column="stutopic_id" jdbcType="VARCHAR" property="stutopicId" />
+    <result column="student_id" jdbcType="VARCHAR" property="studentId" />
+    <result column="topic_id" jdbcType="VARCHAR" property="topicId" />
+    <result column="select_time" jdbcType="TIMESTAMP" property="selectTime" />
+    <result column="flag" jdbcType="VARCHAR" property="flag" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--@mbg.generated-->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+  <sql id="Update_By_Example_Where_Clause">
+    <!--@mbg.generated-->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    stutopic.stutopic_id, stutopic.student_id, stutopic.topic_id, stutopic.select_time, stutopic.flag
+  </sql>
+  <select id="selectByExample" parameterType="com.thesisreading.model.StutopicExample" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from readingsystem.stutopic
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from readingsystem.stutopic
+    where stutopic_id = #{stutopicId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByStuIdAndCourseId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from readingsystem.stutopic , readingsystem.topic
+    where stutopic.topic_id=topic.topic_id and student_id = #{studentId,jdbcType=VARCHAR} and course_id = #{courseId,jdbcType=VARCHAR}
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from readingsystem.stutopic
+    where stutopic_id = #{stutopicId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.thesisreading.model.StutopicExample">
+    <!--@mbg.generated-->
+    delete from readingsystem.stutopic
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.thesisreading.model.Stutopic">
+    <!--@mbg.generated-->
+    insert into readingsystem.stutopic (stutopic_id, student_id, topic_id,
+    select_time, flag)
+    values (#{stutopicId,jdbcType=VARCHAR}, #{studentId,jdbcType=VARCHAR}, #{topicId,jdbcType=VARCHAR},
+    #{selectTime,jdbcType=TIMESTAMP}, #{flag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.thesisreading.model.Stutopic">
+    <!--@mbg.generated-->
+    insert into readingsystem.stutopic
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="stutopicId != null">
+        stutopic_id,
+      </if>
+      <if test="studentId != null">
+        student_id,
+      </if>
+      <if test="topicId != null">
+        topic_id,
+      </if>
+      <if test="selectTime != null">
+        select_time,
+      </if>
+      <if test="flag != null">
+        flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="stutopicId != null">
+        #{stutopicId,jdbcType=VARCHAR},
+      </if>
+      <if test="studentId != null">
+        #{studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="topicId != null">
+        #{topicId,jdbcType=VARCHAR},
+      </if>
+      <if test="selectTime != null">
+        #{selectTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.thesisreading.model.StutopicExample" resultType="java.lang.Long">
+    <!--@mbg.generated-->
+    select count(*) from readingsystem.stutopic
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--@mbg.generated-->
+    update readingsystem.stutopic
+    <set>
+      <if test="record.stutopicId != null">
+        stutopic_id = #{record.stutopicId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentId != null">
+        student_id = #{record.studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.topicId != null">
+        topic_id = #{record.topicId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.selectTime != null">
+        select_time = #{record.selectTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.flag != null">
+        flag = #{record.flag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    <!--@mbg.generated-->
+    update readingsystem.stutopic
+    set stutopic_id = #{record.stutopicId,jdbcType=VARCHAR},
+    student_id = #{record.studentId,jdbcType=VARCHAR},
+    topic_id = #{record.topicId,jdbcType=VARCHAR},
+    select_time = #{record.selectTime,jdbcType=TIMESTAMP},
+    flag = #{record.flag,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.thesisreading.model.Stutopic">
+    <!--@mbg.generated-->
+    update readingsystem.stutopic
+    <set>
+      <if test="studentId != null">
+        student_id = #{studentId,jdbcType=VARCHAR},
+      </if>
+      <if test="topicId != null">
+        topic_id = #{topicId,jdbcType=VARCHAR},
+      </if>
+      <if test="selectTime != null">
+        select_time = #{selectTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="flag != null">
+        flag = #{flag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where stutopic_id = #{stutopicId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.thesisreading.model.Stutopic">
+    <!--@mbg.generated-->
+    update readingsystem.stutopic
+    set student_id = #{studentId,jdbcType=VARCHAR},
+    topic_id = #{topicId,jdbcType=VARCHAR},
+    select_time = #{selectTime,jdbcType=TIMESTAMP},
+    flag = #{flag,jdbcType=VARCHAR}
+    where stutopic_id = #{stutopicId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update readingsystem.stutopic
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="student_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when stutopic_id = #{item.stutopicId,jdbcType=VARCHAR} then #{item.studentId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="topic_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when stutopic_id = #{item.stutopicId,jdbcType=VARCHAR} then #{item.topicId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="select_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when stutopic_id = #{item.stutopicId,jdbcType=VARCHAR} then #{item.selectTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="flag = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when stutopic_id = #{item.stutopicId,jdbcType=VARCHAR} then #{item.flag,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+    </trim>
+    where stutopic_id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.stutopicId,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into readingsystem.stutopic
+    (stutopic_id, student_id, topic_id, select_time, flag)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.stutopicId,jdbcType=VARCHAR}, #{item.studentId,jdbcType=VARCHAR}, #{item.topicId,jdbcType=VARCHAR},
+      #{item.selectTime,jdbcType=TIMESTAMP}, #{item.flag,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+</mapper>

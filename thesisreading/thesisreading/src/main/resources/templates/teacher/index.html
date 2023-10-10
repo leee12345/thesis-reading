@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>教师主页</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script src="/static/layui/layui.js" type="text/javascript"></script>
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="/static/layui/css/layui.css" type="text/css">
+
+    <!--    &lt;!&ndash; 用于本地调试&ndash;&gt;-->
+    <script src="file:///Users/christy/Workspaces/IDEA-workspace/thesisreading/src/main/resources/templates/layui/layui.js"
+            type="text/javascript"></script>
+    <link rel="stylesheet"
+          href="file:///Users/christy/Workspaces/IDEA-workspace/thesisreading/src/main/resources/templates/layui/css/layui.css"
+          type="text/css">
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+
+    <div class="layui-header">
+        <div class="layui-logo">论文选读系统</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="#" id="userid">注册</a>
+<!--                <dl class="layui-nav-child">-->
+<!--                    <dd><a href="#">修改密码</a></dd>-->
+<!--                    <dd><a href="#">个人中心</a></dd>-->
+<!--                </dl>-->
+            </li>
+            <li class="layui-nav-item"><a href="/logout">退出</a></li>
+        </ul>
+    </div>
+
+
+    <div id="div-body">
+
+        <blockquote class="layui-elem-quote layui-text">
+            注意：用户名（教师号）一旦注册无法更改。
+        </blockquote>
+
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+            <legend>教师用户注册</legend>
+        </fieldset>
+
+        <!-- 教师信息表 Teacher(教师 ID，姓名，性别，教师职称，手机号，用户 ID) -->
+        <form class="layui-form">
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="userid" lay-verify="user" lay-reqtext="用户名是必填项，不能为空！" autocomplete="off"
+                           placeholder="教师号" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">姓名</label>
+                <div class="layui-input-block">
+                    <input type="text" name="teachername" lay-verify="required" lay-reqtext="姓名是必填项，不能为空！"
+                           autocomplete="off"
+                           placeholder="姓名" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-block">
+                    <input type="password" name="password" lay-verify="pass" lay-reqtext="密码是必填项，不能为空！"
+                           placeholder="请输入密码"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户类型</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="role" value="0" title="管理员" checked="">
+                    <input type="radio" name="role" value="1" title="授课教师">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">性别</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="sex" value="男" title="男" checked="">
+                    <input type="radio" name="sex" value="女" title="女">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">教师职称</label>
+                <div class="layui-input-inline">
+                    <select name="protitle">
+                        <option value="">请选择职称</option>
+                        <option value="助教" selected="">助教</option>
+                        <option value="讲师">讲师</option>
+                        <option value="副教授">副教授</option>
+                        <option value="教授">教授</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">验证手机</label>
+                <div class="layui-input-inline">
+                    <input type="tel" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-filter="demo1" lay-submit="" id="to-reg">注册</button>
+                    <button id="resetbtn" class="layui-btn layui-btn-primary">重填</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="layui-footer" style="background-color: white; text-align: end;">
+
+        <!-- 底部固定区域 -->
+        © Christy
+    </div>
+</div>
+
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    // layui.use('element', function () {
+    //     var element = layui.element;
+
+    // });
+
+    layui.use(['form', 'element'], function () {
+        var form = layui.form;
+        var element = layui.element;
+        // 自定义验证规则
+        form.verify({
+            user: [
+                /^[\d]{8}$/,
+                '教师号必须为8位数字'
+            ]
+            , pass: [
+                /^[\S]{6,12}$/
+                , '密码必须6到12位，且不能出现空格'
+            ]
+        });
+
+        //监听提交
+        form.on('submit(demo1)', function (data1) {
+            // layer.alert(JSON.stringify(data.field), {
+            //     title: '最终的提交信息'
+            // }
+            //发ajax请求，注册教师用户
+            $.ajax({
+                type: "POST",
+                url: "/teacher/dosignup",
+                data: JSON.stringify(
+                    {
+                    userid: $("[name='userid']").val(),
+                    password: $("[name='password']").val(),
+                    teachername: $("[name='teachername']").val(),
+                    role: $("[name='role']").val(),
+                    sex: $("[name='sex']").val(),
+                    protitle: $("[name='protitle']").val(),
+                    phone: $("[name='phone']").val()
+                    }
+                ),
+                contentType: "application/json; charset=UTF-8",
+                dataType: "json",
+                success: function (data) {
+
+                    var head = "<blockquote class=\"layui-elem-quote layui-text\">\n";
+                    var tail = "</blockquote>";
+
+                    $('#div-body').empty();
+                    if (data['code'] == "200") {
+                        var successInfo = "注册成功。请登录后再操作。\n";
+                        $('#div-body').html(head + successInfo + tail);
+                    } else {
+                        var errorInfo = "";
+                        for (var key in data) {
+                            errorInfo += "<tr><td>" + data[key] + "</td></tr>";
+                        }
+                        $('#div-body').html(head + errorInfo + tail);
+                    }
+                }
+            });
+            return false;
+        });
+
+
+        //表单取值
+        layui.$('#LAY-component-form-getval').on('click', function () {
+            var data1 = form.val('example');
+            //var re = confirm(JSON.stringify(data));
+
+        });
+    });
+
+</script>
+
+<script type="text/javascript">
+
+
+    //reset input
+    $('#resetbtn').click(function () {
+        $("[name='userid']").empty(),
+            $("[name='password']").empty(),
+            $("[name='teachername']").empty(),
+            $("[name='role']").empty(),
+            $("[name='sex']").empty(),
+            $("[name='protitle']").empty(),
+            $("[name='phone']").empty()
+
+    });
+</script>
+
+</body>
+</html>

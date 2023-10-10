@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>管理员主页</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script src="/static/layui/layui.js" type="text/javascript"></script>
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="/static/layui/css/layui.css" type="text/css">
+
+    <!--    &lt;!&ndash; 用于本地调试&ndash;&gt;-->
+    <script src="file:///Users/christy/Workspaces/IDEA-workspace/thesisreading/src/main/resources/templates/layui/layui.js"
+            type="text/javascript"></script>
+    <link rel="stylesheet"
+          href="file:///Users/christy/Workspaces/IDEA-workspace/thesisreading/src/main/resources/templates/layui/css/layui.css"
+          type="text/css">
+</head>
+<body>
+<div class="layui-layout layui-layout-admin">
+
+    <div class="layui-header">
+        <div class="layui-logo">论文选读系统</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+<!--                TODO 用户名从session中获取  -->
+                <a href="#" id="userid">用户名</a>
+                <!--                <dl class="layui-nav-child">-->
+                <!--                    <dd><a href="#">修改密码</a></dd>-->
+                <!--                    <dd><a href="#">个人中心</a></dd>-->
+                <!--                </dl>-->
+            </li>
+            <li class="layui-nav-item"><a href="/logout">退出</a></li>
+        </ul>
+    </div>
+
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">教师管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">教师列表</a></dd>
+                        <dd><a href="javascript:;">新增教师</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">课程管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;">课程列表</a></dd>
+                        <dd><a href="javascript:;">新增课程</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+    <div style="padding: 15px;">内容主体区域</div>
+            </div>
+
+            <div class="layui-footer" style="background-color: white; text-align: end;">
+
+            <!-- 底部固定区域 -->
+        © Christy
+        </div>
+        </div>
+
+        <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+        <script>
+        // layui.use('element', function () {
+        //     var element = layui.element;
+
+        // });
+
+        layui.use(['form', 'element'], function () {
+            var form = layui.form;
+            var element = layui.element;
+            // 自定义验证规则
+        form.verify({
+            user: [
+                /^[\d]{8}$/,
+                '教师号必须为8位数字'
+            ]
+            , pass: [
+                /^[\S]{6,12}$/
+                , '密码必须6到12位，且不能出现空格'
+            ]
+        });
+
+        //监听提交
+        form.on('submit(demo1)', function (data1) {
+            // layer.alert(JSON.stringify(data.field), {
+            //     title: '最终的提交信息'
+            // }
+            //发ajax请求，注册教师用户
+            $.ajax({
+                type: "POST",
+                url: "/teacher/dosignup",
+                data: JSON.stringify(
+                    {
+                        userid: $("[name='userid']").val(),
+                        password: $("[name='password']").val(),
+                        teachername: $("[name='teachername']").val(),
+                        role: $("[name='role']").val(),
+                        sex: $("[name='sex']").val(),
+                        protitle: $("[name='protitle']").val(),
+                        phone: $("[name='phone']").val()
+                    }
+                ),
+                contentType: "application/json; charset=UTF-8",
+                dataType: "json",
+                success: function (data) {
+
+                    var head = "<blockquote class=\"layui-elem-quote layui-text\">\n";
+                    var tail = "</blockquote>";
+
+                    $('#div-body').empty();
+                    if (data['code'] == "200") {
+                        var successInfo = "注册成功。请登录后再操作。\n";
+                        $('#div-body').html(head + successInfo + tail);
+                    } else {
+                        var errorInfo = "";
+                        for (var key in data) {
+                            errorInfo += "<tr><td>" + data[key] + "</td></tr>";
+                        }
+                        $('#div-body').html(head + errorInfo + tail);
+                    }
+                }
+            });
+            return false;
+        });
+
+
+        //表单取值
+        layui.$('#LAY-component-form-getval').on('click', function () {
+            var data1 = form.val('example');
+            //var re = confirm(JSON.stringify(data));
+
+        });
+    });
+
+</script>
+
+<script type="text/javascript">
+
+
+    //reset input
+    $('#resetbtn').click(function () {
+        $("[name='userid']").empty(),
+            $("[name='password']").empty(),
+            $("[name='teachername']").empty(),
+            $("[name='role']").empty(),
+            $("[name='sex']").empty(),
+            $("[name='protitle']").empty(),
+            $("[name='phone']").empty()
+
+    });
+</script>
+
+</body>
+</html>

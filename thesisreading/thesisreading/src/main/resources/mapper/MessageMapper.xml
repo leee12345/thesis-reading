@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thesisreading.mapper.MessageMapper">
+  <resultMap id="BaseResultMap" type="com.thesisreading.model.Message">
+    <!--@mbg.generated-->
+    <!--@Table readingsystem.topic-->
+    <id column="message_id" jdbcType="INTEGER" property="messageId" />
+    <result column="paper_id" jdbcType="INTEGER" property="paperId" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--@mbg.generated-->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--@mbg.generated-->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    message_id, paper_id, content
+  </sql>
+  <select id="selectByExample" parameterType="com.thesisreading.model.MessageExample" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from readingsystem.topic
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from readingsystem.message
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from readingsystem.message
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="deleteByExample" parameterType="com.thesisreading.model.MessageExample">
+    <!--@mbg.generated-->
+    delete from readingsystem.message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+
+  <insert id="insert" parameterType="com.thesisreading.model.Message" useGeneratedKeys="true" keyProperty="messageId">
+    <!--@mbg.generated-->
+    insert into readingsystem.message (paper_id, content,user_id)
+    values ( #{paperId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.thesisreading.model.Message" useGeneratedKeys="true" keyProperty="messageId">
+    <!--@mbg.generated-->
+    insert into readingsystem.message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="paperId != null">
+        paper_id,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="paperId != null">
+        #{paperId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="countByExample" parameterType="com.thesisreading.model.MessageExample" resultType="java.lang.Long">
+    <!--@mbg.generated-->
+    select count(*) from readingsystem.message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--@mbg.generated-->
+    update readingsystem.message
+    <set>
+      <if test="record.messageId != null">
+        message_id = #{record.messageId,jdbcType=INTEGER},
+      </if>
+      <if test="record.paperId != null">
+        paper_id = #{record.paperId,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null">
+        content = #{record.userId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+
+  <update id="updateByExample" parameterType="map">
+    <!--@mbg.generated-->
+    update readingsystem.message
+    set message_id = #{record.messageId,jdbcType=INTEGER},
+    paper_id = #{record.paperId,jdbcType=INTEGER},
+    content = #{record.content,jdbcType=VARCHAR},
+    user_id = #{record.userId,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.thesisreading.model.Message">
+    <!--@mbg.generated-->
+    update readingsystem.message
+    <set>
+      <if test="paperId != null">
+        paper_id = #{paperId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        content = #{userId,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.thesisreading.model.Message">
+    <!--@mbg.generated-->
+    update readingsystem.message
+    set paper_id = #{paperId,jdbcType=INTEGER},
+    content = #{content,jdbcType=VARCHAR},
+    user_id = #{userId,jdbcType=VARCHAR}
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update readingsystem.message
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="paper_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when message_id = #{item.messageId,jdbcType=INTEGER} then #{item.paperId,jdbcType=INTEGER}
+        </foreach>
+      </trim>
+      <trim prefix="content = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when message_id = #{item.messageId,jdbcType=INTEGER} then #{item.content,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="user_id = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when message_id = #{item.messageId,jdbcType=INTEGER} then #{item.userId,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+    </trim>
+    where message_id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.messageId,jdbcType=INTEGER}
+    </foreach>
+  </update>
+
+  <insert id="batchInsert" parameterType="map" useGeneratedKeys="true" keyProperty="messageId">
+    <!--@mbg.generated-->
+    insert into readingsystem.message
+    (paper_id,content,user_id)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.paperId,jdbcType=INTEGER}, #{item.content,jdbcType=VARCHAR}, #{item.userId,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+</mapper>
